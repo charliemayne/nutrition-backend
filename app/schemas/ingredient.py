@@ -1,6 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional
-
+from typing import List, Dict, Tuple, Optional, Union
 
 class IngredientSchema(BaseModel):
     """Schema for ingredient data"""
@@ -21,5 +20,5 @@ class GroceryListItem(BaseModel):
     total_quantity: float
     unit: str
     category: Optional[str] = None
-    recipes_used_in: list[str] = Field(default_factory=list, description="List of recipe names that use this ingredient")
+    recipes_used_in: List[str] = Field(default_factory=list)
     already_owned: bool = Field(default=False, description="Whether the user already owns this ingredient")
