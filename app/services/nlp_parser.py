@@ -60,16 +60,21 @@ Extract the following information and respond ONLY with a valid JSON object (no 
   "meal_types": ["list of meal types like breakfast, lunch, dinner, snack"],
   "meal_count": number of meals requested (integer or null),
   "owned_ingredients": ["list of ingredients the user already has"],
+  "required_ingredients": ["list of ingredients that MUST be in the recipe, like 'ground beef', 'chicken breast', 'salmon'"],
   "cuisine_preferences": ["list of cuisine preferences like Italian, Mexican, Asian, etc."],
+  "protein_requirement": minimum protein in grams per serving (integer or null),
   "other_requirements": "any other requirements or preferences as a string"
 }}
 
 Important:
 - Only include fields if they are mentioned in the query
 - Use empty arrays [] for lists if nothing is mentioned
-- Use null for meal_count if not specified
+- Use null for meal_count and protein_requirement if not specified
 - Normalize ingredient names to lowercase
 - Normalize dietary restrictions to standard terms
+- "owned_ingredients" = ingredients the user ALREADY HAS
+- "required_ingredients" = ingredients that MUST BE IN the recipe
+- Look for protein requirements like "30g protein", "high protein", "at least 25g protein per serving"
 
 JSON Response:"""
 
@@ -128,6 +133,8 @@ JSON Response:"""
             meal_types=meal_types,
             meal_count=meal_count,
             owned_ingredients=owned_ingredients,
+            required_ingredients=[],
             cuisine_preferences=[],
+            protein_requirement=None,
             other_requirements=None
         )

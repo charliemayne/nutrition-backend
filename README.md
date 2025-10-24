@@ -6,8 +6,10 @@ A backend service that processes natural language meal planning queries and gene
 
 - **Natural Language Processing**: Parse queries like "I want 3 vegan dinners this week and I already have rice and beans"
 - **Recipe Matching**: Find recipes based on dietary restrictions, meal types, and preferences
+- **Recipe Fetching from URLs**: Import recipes from 100+ popular recipe websites (AllRecipes, Food Network, BBC Food, etc.)
 - **Grocery List Generation**: Automatically aggregate ingredients across recipes and deduplicate
 - **Owned Ingredients**: Filter out items you already have
+- **Legal & Ethical**: Respects robots.txt, implements rate limiting, and attributes sources
 - **Future-Ready**: Built with hooks for price optimization, store proximity, and quality scoring
 
 ## Architecture
@@ -27,7 +29,7 @@ app/
 
 ### Prerequisites
 
-1. **Python 3.9+**
+1. **Python 3.8+**
 2. **Ollama** (for free local LLM)
    - Install: https://ollama.ai
    - Pull a model: `ollama pull llama2`
@@ -116,6 +118,25 @@ curl -X POST "http://localhost:8000/api/v1/query" \
 ### Get Specific Recipe
 
 **GET** `/api/v1/recipes/{recipe_id}`
+
+### Fetch Recipe from URL (New!)
+
+**POST** `/api/v1/recipes/fetch-from-url`
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/recipes/fetch-from-url" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.allrecipes.com/recipe/12345/example-recipe/",
+    "save_to_db": true
+  }'
+```
+
+**See full documentation:** [RECIPE_FETCHING_GUIDE.md](RECIPE_FETCHING_GUIDE.md)
+
+### Get Supported Recipe Websites
+
+**GET** `/api/v1/recipes/supported-sites`
 
 ## Adding Recipes
 
